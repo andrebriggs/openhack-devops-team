@@ -41,7 +41,7 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
-- stage: 'Build API Trip'
+- stage: 'Build_API_Trip'
   displayName: Build and push stage
   jobs:  
   - job: Build
