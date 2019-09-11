@@ -24,7 +24,7 @@ variables:
   vmImageName: 'ubuntu-latest'
 
 stages:
-- stage: 'Build API Poi'
+- stage: 'Build_API_Poi'
   displayName: Build and push stage
   jobs:  
   - job: Build
