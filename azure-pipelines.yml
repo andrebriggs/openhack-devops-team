@@ -15,7 +15,7 @@ variables:
   trips_imageRepository: 'api-trips'
   containerRegistry: 'andrebriggs.azurecr.io'
   poi_dockerfilePath: '$(Build.SourcesDirectory)/apis/poi/web/Dockerfile'
-  trips_dockerfilePath: '$(Build.SourcesDirectory)/apis/trips/web/Dockerfile'
+  trips_dockerfilePath: '$(Build.SourcesDirectory)/apis/trips/Dockerfile'
   userjava_dockerfilePath: '$(Build.SourcesDirectory)/apis/user-java/web/Dockerfile'
   userprofile_dockerfilePath: '$(Build.SourcesDirectory)/apis/user-profile/web/Dockerfile'
   tag: '$(Build.BuildId)'
@@ -31,7 +31,13 @@ strategy:
       dockerfilePath: '$(Build.SourcesDirectory)/apis/poi/web/Dockerfile'
     api-trips:
       imageRepository: 'api-trips'
-      dockerfilePath: '$(Build.SourcesDirectory)/apis/trips/web/Dockerfile'
+      dockerfilePath: '$(Build.SourcesDirectory)/apis/trips/Dockerfile'
+    api-user-java:
+      imageRepository: 'api-user-java'
+      dockerfilePath: '$(Build.SourcesDirectory)/apis/user-java/Dockerfile'
+    api-userprofile:
+      imageRepository: 'userprofile'
+      dockerfilePath: '$(Build.SourcesDirectory)/apis/userprofile/Dockerfile'
 
 steps:
 - task: Docker@2
