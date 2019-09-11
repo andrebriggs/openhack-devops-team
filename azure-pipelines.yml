@@ -11,16 +11,20 @@ resources:
 variables:
   # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: '4338109f-c8f7-4055-948f-d2ffee061fa8'
-  imageRepository: 'api-poi'
+  poi_imageRepository: 'api-poi'
+  trips_imageRepository: 'api-trips'
   containerRegistry: 'andrebriggs.azurecr.io'
-  dockerfilePath: '$(Build.SourcesDirectory)/apis/poi/web/Dockerfile'
+  poi_dockerfilePath: '$(Build.SourcesDirectory)/apis/poi/web/Dockerfile'
+  trips_dockerfilePath: '$(Build.SourcesDirectory)/apis/trips/web/Dockerfile'
+  userjava_dockerfilePath: '$(Build.SourcesDirectory)/apis/user-java/web/Dockerfile'
+  userprofile_dockerfilePath: '$(Build.SourcesDirectory)/apis/user-profile/web/Dockerfile'
   tag: '$(Build.BuildId)'
   
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
 
 stages:
-- stage: Build
+- stage: Build API Poi
   displayName: Build and push stage
   jobs:  
   - job: Build
@@ -32,8 +36,25 @@ stages:
       displayName: Build and push an image to container registry
       inputs:
         command: buildAndPush
-        repository: $(imageRepository)
-        dockerfile: $(dockerfilePath)
+        repository: $(poi_imageRepository)
+        dockerfile: $(poi_dockerfilePath)
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
+- stage: Build API Trip
+  displayName: Build and push stage
+  jobs:  
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+    - task: Docker@2
+      displayName: Build and push an image to container registry
+      inputs:
+        command: buildAndPush
+        repository: $(trips_imageRepository)
+        dockerfile: $(trips_dockerfilePath)
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
