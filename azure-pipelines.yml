@@ -24,7 +24,7 @@ variables:
   vmImageName: 'ubuntu-latest'
 
 stages:
-- stage: Build API Poi
+- stage: 'Build API Poi'
   displayName: Build and push stage
   jobs:  
   - job: Build
@@ -41,7 +41,7 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
-- stage: Build API Trip
+- stage: 'Build API Trip'
   displayName: Build and push stage
   jobs:  
   - job: Build
