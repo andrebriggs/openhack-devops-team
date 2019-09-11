@@ -23,8 +23,19 @@ variables:
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
 
+
+strategy:
+  matrix:
+    api-poi:
+      imageRepository: 'api-poi'
+      dockerfilePath: '$(Build.SourcesDirectory)/apis/poi/web/Dockerfile'
+    api-trips:
+      imageRepository: 'api-trips'
+      dockerfilePath: '$(Build.SourcesDirectory)/apis/trips/web/Dockerfile'
+
+
 stages:
-- stage: 'Build_API_Poi'
+- stage: 'Build'
   displayName: Build and push stage
   jobs:  
   - job: Build
@@ -36,25 +47,26 @@ stages:
       displayName: Build and push an image to container registry
       inputs:
         command: buildAndPush
-        repository: $(poi_imageRepository)
-        dockerfile: $(poi_dockerfilePath)
+        repository: $(imageRepository)
+        dockerfile: $(dockerfilePath)
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
-- stage: 'Build_API_Trip'
-  displayName: Build and push stage
-  jobs:  
-  - job: Build
-    displayName: Build
-    pool:
-      vmImage: $(vmImageName)
-    steps:
-    - task: Docker@2
-      displayName: Build and push an image to container registry
-      inputs:
-        command: buildAndPush
-        repository: $(trips_imageRepository)
-        dockerfile: $(trips_dockerfilePath)
-        containerRegistry: $(dockerRegistryServiceConnection)
-        tags: |
-          $(tag)
+
+# - stage: 'Build_API_Trip'
+#   displayName: Build and push stage
+#   jobs:  
+#   - job: Build
+#     displayName: Build
+#     pool:
+#       vmImage: $(vmImageName)
+#     steps:
+#     - task: Docker@2
+#       displayName: Build and push an image to container registry
+#       inputs:
+#         command: buildAndPush
+#         repository: $(trips_imageRepository)
+#         dockerfile: $(trips_dockerfilePath)
+#         containerRegistry: $(dockerRegistryServiceConnection)
+#         tags: |
+#           $(tag)
